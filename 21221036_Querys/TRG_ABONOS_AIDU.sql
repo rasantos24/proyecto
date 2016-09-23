@@ -1,0 +1,55 @@
+---------------INSERT
+CREATE TRIGGER dbo.TRG_ABONOS_AI on dbo.ABONOS
+FOR INSERT
+AS
+BEGIN
+
+    INSERT INTO ABONOS
+    (
+      NEW.FECHA_CREACION,
+      NEW.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM ABONOS AS p
+END
+go
+
+
+---------------DELETE
+create trigger dbo.TRG_ABONOS_AD on dbo.ABONOS
+FOR DELETE
+as
+BEGIN
+
+    INSERT INTO ABONOS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM ABONOS AS p
+END
+go
+
+
+---------------UPDATE
+create trigger dbo.TRG_ABONOS_AU on dbo.ABONOS
+FOR UPDATE
+as
+BEGIN
+
+    INSERT INTO ABONOS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      FECHA_ACTUALIZACION,
+      USUARIO_ACTUALIZACION
+  FROM ABONOS AS p
+END
+go

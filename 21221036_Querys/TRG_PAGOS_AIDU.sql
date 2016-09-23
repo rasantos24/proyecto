@@ -1,0 +1,55 @@
+---------------INSERT
+CREATE TRIGGER dbo.TRG_PAGOS_AI on dbo.PAGOS
+FOR INSERT
+AS
+BEGIN
+
+    INSERT INTO PAGOS
+    (
+      NEW.FECHA_CREACION,
+      NEW.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM PAGOS AS p
+END
+go
+
+
+---------------DELETE
+create trigger dbo.TRG_PAGOS_AD on dbo.PAGOS
+FOR DELETE
+as
+BEGIN
+
+    INSERT INTO PAGOS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM PAGOS AS p
+END
+go
+
+
+---------------UPDATE
+create trigger dbo.TRG_PAGOS_AU on dbo.PAGOS
+FOR UPDATE
+as
+BEGIN
+
+    INSERT INTO PAGOS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      FECHA_ACTUALIZACION,
+      USUARIO_ACTUALIZACION
+  FROM PAGOS AS p
+END
+go

@@ -1,0 +1,55 @@
+---------------INSERT
+CREATE TRIGGER dbo.TRG_A_CUENTAS_AI on dbo.A_CUENTAS
+FOR INSERT
+AS
+BEGIN
+
+    INSERT INTO A_CUENTAS
+    (
+      NEW.FECHA_CREACION,
+      NEW.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM A_CUENTAS AS p
+END
+go
+
+
+---------------DELETE
+create trigger dbo.TRG_A_CUENTAS_AD on dbo.A_CUENTAS
+FOR DELETE
+as
+BEGIN
+
+    INSERT INTO A_CUENTAS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM A_CUENTAS AS p
+END
+go
+
+
+---------------UPDATE
+create trigger dbo.TRG_A_CUENTAS_AU on dbo.A_CUENTAS
+FOR UPDATE
+as
+BEGIN
+
+    INSERT INTO A_CUENTAS
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      FECHA_ACTUALIZACION,
+      USUARIO_ACTUALIZACION
+  FROM A_CUENTAS AS p
+END
+go

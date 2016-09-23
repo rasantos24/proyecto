@@ -1,0 +1,55 @@
+---------------INSERT
+CREATE TRIGGER dbo.TRG_ROLES_AI on dbo.ROLES
+FOR INSERT
+AS
+BEGIN
+
+    INSERT INTO ROLES
+    (
+      NEW.FECHA_CREACION,
+      NEW.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM ROLES AS p
+END
+go
+
+
+---------------DELETE
+create trigger dbo.TRG_ROLES_AD on dbo.ROLES
+FOR DELETE
+as
+BEGIN
+
+    INSERT INTO ROLES
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      GETDATE(),
+      USER
+  FROM ROLES AS p
+END
+go
+
+
+---------------UPDATE
+create trigger dbo.TRG_ROLES_AU on dbo.ROLES
+FOR UPDATE
+as
+BEGIN
+
+    INSERT INTO ROLES
+    (
+      OLD.FECHA_CREACION,
+      OLD.USUARIO_CREADOR
+    )
+  SELECT
+      FECHA_ACTUALIZACION,
+      USUARIO_ACTUALIZACION
+  FROM ROLES AS p
+END
+go
